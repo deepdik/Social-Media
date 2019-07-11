@@ -1,0 +1,154 @@
+{% load staticfiles %}
+
+<div class="layout-footer">
+    <div class="layout-footer-body">
+        <small class="copyright">2018 &copy; viewed</small>
+    </div>
+</div>
+</div>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/vendor.min.js' %}"></script>
+    <script src="{% static 'js/elephant.min.js' %}"></script>
+    <script src="{% static 'js/application.min.js' %}"></script>
+    <script src="{% static 'js/iEdit.js' %}"></script>
+    <script src="{% static 'js/profile.min.js' %}"></script>
+     <script src="{% static 'js/demo.min.js' %}"></script>
+
+      <script src="{% static 'js/product.min.js' %}"></script>
+   
+    <script type="text/javascript">
+    $(window).load(function(){
+
+      // For Driver Page
+      if ( $('.profilePage').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.profilePageNav').addClass("active");
+      }
+
+      if ( $('.userListPage').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.userListPageNav').addClass("active");
+      }
+
+      if ( $('.settingPage').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.settingNav').addClass("active");
+      }
+
+      if ( $('.offerPage').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.offerPageNav').addClass("active");
+      }
+
+      if ( $('.productPage').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.productPageNav').addClass("active");
+      }
+
+
+      if ( $('.policyPage').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.policyPageNav').addClass("active");
+      }
+      if ( $('.dashboardPage').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.dashboardPageNav').addClass("active");
+      }
+      if ( $('.userPage').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.accNav-a').addClass("active");
+        $('.accountNav').addClass("open");
+        $('.accountNav ul').css("display","block");
+      }
+      if ( $('.user2Page').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.accNav-b').addClass("active");
+        $('.accountNav').addClass("open");
+        $('.accountNav ul').css("display","block");
+      }
+      if ( $('.user3Page').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.accNav-c').addClass("active");
+        $('.accountNav').addClass("open");
+        $('.accountNav ul').css("display","block");
+      }
+
+
+      if ( $('.settingPage').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.settingNav-a').addClass("active");
+        $('.settingNav').addClass("open");
+        $('.settingNav ul').css("display","block");
+      }
+
+      if ( $('.settingPage2').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.settingNav-b').addClass("active");
+        $('.settingNav').addClass("open");
+        $('.settingNav ul').css("display","block");
+      }
+
+      if ( $('.user4Page').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.accNav-d').addClass("active");
+        $('.accountNav').addClass("open");
+        $('.accountNav ul').css("display","block");
+      }
+
+      if ( $('.addProduct').length ) {
+        $('.sidenav-item').removeClass("active");
+        $('.accNav-d').addClass("active");
+        $('.productNav').addClass("open");
+        $('.productNav ul').css("display","block");
+      }
+      });
+            $(window).scroll(function (){
+                var window_top = $(window).scrollTop();
+                var div_top = $('.tabs-new').position().top;
+                console.log(window_top);
+                console.log(div_top);
+                if (window_top > div_top) {
+                    $('.tabs-new').addClass('stick');
+                    $('.tabs-new').parents('.layout-content-body').removeClass('layout-content-body').addClass('layout-content-body-dummy');
+                } else {
+                    $('.tabs-new').parents('.layout-content-body').removeClass('layout-content-body-dummy').addClass('layout-content-body')
+                }
+                if ( window_top < 74 ) {
+                  $('.tabs-new').removeClass('stick');
+                }
+            });
+
+    </script>
+
+
+<script type="text/javascript">
+     
+      $("#btn-edit").click(function(){
+        $('.rdonly').removeAttr("readonly");
+        $('.dis-attr').removeAttr("disabled");
+      });
+
+
+
+</script>
+
+    </script>
+ 
+
+ 
+    <script>
+      $(document).on("change",".gal-file",function(e2) {
+        var img1 = e2.target.files[0];
+        //alert(e2.target);
+        if(!iEdit.open(img1, true, function(res1){
+        console.log(res1)
+        $(e2.target).parent().find(".gal-result").attr("src", res1);  
+        })){
+        alert("Whoops! That is not an image!");
+        }
+      });
+    </script>
+
+
+  </body>
+</html>

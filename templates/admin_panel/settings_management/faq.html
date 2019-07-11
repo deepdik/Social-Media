@@ -1,0 +1,187 @@
+{% load staticfiles %}
+
+{% include 'admin_panel/header.html' %}
+
+<style>
+.card-edit{
+  margin-right: 6px;
+}
+  .card-edit:before{
+    content: "\f044";
+    font-size: 18px;
+  }
+.card-delete{
+  margin-right: 6px;
+}
+  .card-delete:before{
+    content: "\f1f8";
+    font-size: 18px;
+  }
+</style>
+
+	<div class="dashboardPage settingPage2"></div>
+		<div class="layout-content">
+			   <div class="layout-content-body">
+          <div class="title-bar">
+            <h1 class="title-bar-title">
+              <span class="d-ib">FAQs</span>
+            </h1>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-xs-12">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="m-t-0 text-center" id="faq_text">Add FAQs</h4>
+
+                  {% if form.errors %}
+
+
+                      {% for field in form %}
+                        {% for error in field.errors %}
+                            <p id="error_message" style="color:red;text-align: center; margin:0px">
+                                <span>{{ error|escape }}</span>
+                            </p>
+                              {% endfor %}
+                          {% endfor %}
+
+                          {% for error in form.non_field_errors %}
+                             <p id="error_message" style="color:red;text-align: center; margin:0px">
+                                  <span>{{ error|escape }}</span>
+                              </p>
+                          {% endfor %}
+
+                          {% endif %}
+
+                          {% if messages %}
+                          {% for message in messages %}
+                        <p id="error_message" style="color:green;text-align: center;">{{message}}</p>
+                     {% endfor %}
+                  {% endif %}
+
+                  <form class="form" method="POST" enctype='multipart/form-data'>{% csrf_token%}
+                    <div class="form-group col-md-12">
+                      <label>Query</label>
+                      <textarea class="form-control" name="query" id="query" required=""></textarea>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label>Description</label>
+                      <textarea rows="8" class="form-control" name="answer"  id="answer" required=""></textarea>
+                    </div>
+                   <input type="hidden" name="id" id="query_id" value="{{id}}">
+
+                    <div class="form-group">
+                      <button class="btn btn-primary btn-block" type="submit" >Submit</button>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row gutter-xs">
+            <div class="col-md-12">
+
+
+              {% for faq in faqs %}
+
+              <div class="card" id="{{faq.id}}abc">
+                <div class="card-header">
+                  <div class="card-actions">
+                    <button type="button" class="card-action card-edit" id="{{faq.id}}" onclick="EditFaq(this.id)"   title="Edit"></button>
+                    <button type="button" class="card-action card-delete" data-toggle="modal" id="{{faq.id}}" onclick="deleteFaq(this.id)" data-target="#deleteFaq"  title="delete"></button>
+                    <button type="button"  class="card-action card-toggler" title="View more"></button>
+                  </div>
+                   <span>{{forloop.counter}}. &nbsp</span>
+
+                  <strong >{{faq.query}} </strong>
+                </div>
+                <div class="card-body" data-toggle="match-height" style="display:none;margin-left:19px">
+                  <p>{{faq.answer}}</p>
+                </div>
+              </div>
+
+            {% endfor %}
+
+              
+            </div>
+
+          </div>
+        </div>
+		</div>
+
+
+    <div id="deleteFaq" tabindex="-1" role="dialog" class="modal fade">
+     <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="text-center">
+              <span class="text-danger icon icon-times-circle icon-3x"></span>
+              <h4 class="text-danger">Danger</h4>
+              <p>Are you sure,you want to delete this FAQ ?</p>
+              <div class="m-t-lg">
+                <button class="btn btn-danger" id ="faq_deleted_id" faq_id="" onclick="deleteFaqFunction()" data-dismiss="modal" type="button">Continue</button>
+                <button class="btn btn-default ml-2" data-dismiss="modal" type="button">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+    </div>
+
+
+{% include 'admin_panel/footer.html' %}
+
+<script >
+  
+  function deleteFaq(clicked_id){   
+    document.getElementById('faq_deleted_id').setAttribute('faq_id', clicked_id)
+  };
+
+  function deleteFaqFunction(){
+      var id  = document.getElementById('faq_deleted_id').getAttribute("faq_id");
+
+    $.ajax(
+      {
+        type:"DELETE",
+        url: "/api/admin/panel/delete_faq/"+id,
+        headers: { "X-CSRFToken":'{{csrf_token}}'},
+
+      success: function( data ) 
+        {   
+
+            alert(data.message)
+            window.location.reload();
+         
+        },
+
+      statusCode: {
+        404: function(response) {
+            alert('404')
+        },
+        500: function(response) {
+            alert('500')
+        },
+        400: function(response) {
+            alert('400')
+        },
+    }
+       
+     })
+   
+  };
+
+function EditFaq(clicked_id){
+    var query = $( "#" +clicked_id +'abc'+' '+ 'strong' ).html()
+    var answer = $( "#" +clicked_id +'abc'+' '+ 'p' ).html()
+    $( "#query" ).val(query)
+    $( "#answer" ).val(answer)
+    $( "#faq_text" ).text('Edit FAQs')
+    $( "#query_id" ).val(clicked_id)
+    $( "#error_message" ).text('')
+
+      $("html, body").animate({ scrollTop: 0 }, "slow");
+        return false;
+    
+}
+
+</script>

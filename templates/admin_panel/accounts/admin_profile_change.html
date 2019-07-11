@@ -1,0 +1,161 @@
+
+{% load staticfiles %}
+
+{% include 'admin_panel/header.html' %}
+
+<div class="profilePage"></div>
+<div class="layout-content">
+    <div class="layout-content-body">
+        <div class="title-bar">
+
+            <h1 class="title-bar-title">
+              <span class="d-ib">Edit My Profile /</span>
+              <a href="/admin/panel/admin_profile/">Back to list</a>
+            </h1>
+        </div>
+        <div class="row gutter-xs">
+            <div class="col-md-8 card panel-body" style="box-shadow: 0px 0px 14px #999;">
+                <div class="col-sm-12 col-md-12">
+                    <div class="demo-form-wrapper">
+
+                        <form class="form form-horizontal" action="/admin/panel/admin_profile/edit" method="POST" enctype='multipart/form-data'>{% csrf_token%}
+
+                            <div class="form-group">
+                             <div class="col-md-6">
+                              <label class=" control-label">First Name</label>
+                              <input id="" class="form-control" name="first_name" value="{{first_name}}" type="text" required>
+                             </div>
+                             <div class="col-md-6">
+                              <label class=" control-label">Last Name</label>
+                              <input id="" class="form-control" value="{{last_name}}" name="last_name" type="text" required>
+                             </div>
+                            </div>
+
+                             <div class="form-group">
+                             <div class="col-md-6">
+                              <label class=" control-label">Email ID</label>
+                              <input id="email" class="form-control" name="email" value="{{email}}" type="email" autocomplete="off" data-msg-required="Please enter your email address." required>
+                              {% if form.errors %}
+          	
+           						<p style="color:red;">{{ form.email.errors.as_text |cut:"* "}}<p>
+            				{% endif %}
+                             </div>
+                             <div class="col-md-6">
+                              <label class=" control-label">Mobile</label>
+                              <input id="" class="form-control" value="{{mobile_number}}" name="mobile_number" type="text" data-msg-required="Phone number is required" required>
+                              {% if form.errors %}
+          						<br>
+           						<p style="color:red;">{{ form.mobile_number.errors.as_text |cut:"* "}}<p>
+            					{% endif %}
+                             </div>
+                            </div>
+
+                            <div class="form-group">
+                             <div class="col-md-6 add-pic">
+                              <label class=" control-label">Change Profile Images</label>
+                              <div class="pic-box">
+                                <div class="logoImg">
+
+                                {% if profile_image %}
+    							<img src="{{profile_image.url}}" id="result1">
+
+    							{% else %}
+
+    							 <img src="/media/img/3002121059.jpg" id="result1">
+    					
+
+								{% endif %}
+                                 
+                                 <input id="logo-file" name='profile_image' type="file" class="hide">
+                                 <label for="logo-file" class="btn btn-large"></label>
+                                </div>
+                              </div>
+                             </div>
+                                <div class="col-md-6 add-pic">
+                              <label class=" control-label">Change Cover Images</label>
+                              <div class="pic-box">
+                                <div class="logoImg">
+
+                                 {% if cover_image%}
+    							<img src="{{cover_image.url}}" id="result2">
+
+    							{% else %}
+
+    							 <img src="/media/img/3002121059.jpg" id="result2">
+
+								{% endif %}
+                                 <input id="coverlogo-file" name='cover_image' type="file" class="hide">
+                                 <label for="coverlogo-file" class="btn btn-large"></label>
+                                </div>
+                              </div>
+                             </div>
+                            </div>
+
+
+
+
+
+                            <div class="form-group">
+                                <div class="col-sm-12 col-md-12" style="text-align:center;margin-top:25px">
+                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% include 'admin_panel/footer.html' %}
+
+<script type="text/javascript">
+              $(document).ready(function(){
+               $("#logo-file").change(function(e){
+                var img = e.target.files[0];
+                if(!iEdit.open(img, true, function(res){
+                 $("#result1").attr("src", res);      
+                })){
+                  alert("Whoops! That is not an image!");
+                }
+               });
+               $(document).on("click",".add-facility .plus-btn",function() {
+                $('.add-facility .facility-box').append('\
+                   <div class="col-md-6">\
+                    <input id="" class="form-control" type="date">\
+                    <span class="del">x</span>\
+                   </div>');
+                  $(".add-facility .del").on('click',function(){
+                    $(this).parent('.col-md-6').remove();
+                  });
+              });
+              });
+
+              
+              $(document).ready(function(){
+               $("#coverlogo-file").change(function(e){
+                var img = e.target.files[0];
+                if(!iEdit.open(img, true, function(res){
+                 $("#result2").attr("src", res);      
+                })){
+                  alert("Whoops! That is not an image!");
+                }
+               });
+               $(document).on("click",".add-facility .plus-btn",function() {
+                $('.add-facility .facility-box').append('\
+                   <div class="col-md-6">\
+                    <input id="" class="form-control" type="date">\
+                    <span class="del">x</span>\
+                   </div>');
+                  $(".add-facility .del").on('click',function(){
+                    $(this).parent('.col-md-6').remove();
+                  });
+              });
+              });
+            </script>
